@@ -85,7 +85,7 @@ def load_info(repo):
     
 
 def response_stars_image(watches, stars, folks):
-    imgio = draw_image(watches, stars, folks, save=True)
+    imgio = draw_image(watches, stars, folks, save=False)
 
     return send_file(imgio, "image/png")
 
