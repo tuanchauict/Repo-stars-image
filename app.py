@@ -4,7 +4,7 @@ import gzip
 import functools
 import json
 import certifi
-from imagepy.image_text import draw_stars
+from imagepy.image_text import draw_image
 from urllib3.util.url import parse_url
 
 
@@ -66,25 +66,26 @@ def get_stars():
 
     url = parse_url(url)
     if url.host == 'github.com':
-        stars = load_stars(url.path)
-        return response_stars_image(stars)
+        (watches, stars, folks) = load_info(url.path)
+        # TODO add more options 
+        return response_stars_image(watches, stars, folks)
 
     return "Not found", 404
 
 
 
-def load_stars(repo):
+def load_info(repo):
     res = http.request('GET', base_github_url + repo, headers=headers)
     if res.status != 200:
         return "Not found", 404
     content = res.data
     data = json.loads(content.decode('utf8'))
-    stars = data['stargazers_count']
-    return stars
+
+    return (data['subscribers_count'], data['stargazers_count'], data['forks_count'])
     
 
-def response_stars_image(stars):
-    imgio = draw_stars(stars)
+def response_stars_image(watches, stars, folks):
+    imgio = draw_image(watches, stars, folks, save=True)
 
     return send_file(imgio, "image/png")
 
