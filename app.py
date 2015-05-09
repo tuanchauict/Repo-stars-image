@@ -54,6 +54,10 @@ def gzipped(f):
 
     return view_func
 
+@app.route('/')
+def home():
+    return "Hello world"
+
 @app.route('/service/star')
 def get_stars():
     url = request.args.get('url', None)
@@ -66,6 +70,7 @@ def get_stars():
         return response_stars_image(stars)
 
     return "Not found", 404
+
 
 
 def load_stars(repo):
