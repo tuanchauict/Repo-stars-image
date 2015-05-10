@@ -65,13 +65,22 @@ def get_stars():
         return 'Not found', 404
 
     url = parse_url(url)
+    pattern = request.args.get('type', None)
     if url.host == 'github.com':
         (watches, stars, folks) = load_info(url.path)
-        # TODO add more options 
-        return response_stars_image(watches, stars, folks)
+        if pattern == None:
+            return response_stars_image(watches, stars, folks)
+        else:
+            return response_stars_image(live_or_not(pattern, 'watch', watches), live_or_not(pattern, 'star', stars), live_or_not(pattern, 'folk', folks))
 
     return "Not found", 404
 
+
+def live_or_not(pattern, _type, value):
+    if _type in pattern:
+        return value 
+    else:
+        return None
 
 
 def load_info(repo):
