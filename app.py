@@ -99,6 +99,71 @@ def response_stars_image(watches, stars, folks):
     return send_file(imgio, "image/png")
 
 
+# --------------TEST GCALL------------------
+
+import time
+
+@app.route('/staff/login', methods=['POST', 'GET'])
+def staff_login():
+    # time.sleep(2)
+    print(request.form)
+    print(request.args)
+    return json.dumps({
+        'status': 'OK',
+        'skey': 'test_key'
+        }) + "\n"
+
+@app.route('/staff/logout', methods=['GET'])
+def staff_logout():
+    time.sleep(1)
+    print(request.args)
+    return json.dumps({
+        'status': 'OK'
+        }) + "\n"
+
+
+
+@app.route('/staff/ready', methods=['GET'])
+def staff_ready():
+    time.sleep(1)
+    print(request.args)
+    return json.dumps({
+        'status': 'OK',
+        'cinfo': {
+            'name': 'CustomerX',
+            'ckey': 'customerXkey',
+            'signalC': {
+                'key': "blahblah"
+            }
+        }
+        }) + "\n"
+
+@app.route('/staff/connecting', methods=['GET'])
+def staff_connecting():
+    time.sleep(1)
+    print(request.args)
+    return json.dumps({
+        'status': 'OK'
+        }) + "\n"
+
+def staff_connected():
+    time.sleep(1)
+    print(request.args)
+    return json.dumps({
+        'status': 'OK'
+        }) + "\n"
+
+def staff_finish():
+    time.sleep(1)
+    print(request.args)
+    return json.dumps({
+        'status': 'OK'
+        }) + "\n"
+
+# ------------------END TEST GCALL---------------
+
+
+
 if __name__ == '__main__':
 	import os
 	port = int(os.environ.get("PORT", 5000))
